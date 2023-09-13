@@ -14,8 +14,6 @@ app.config['SECRET_KEY'] = "68c2b6ceb89ed3cd1f1c0e78d5fd79f710bef290bda90a70"
 
 @app.route('/')
 def index():  # put application's code here
-  session['logged_in'] = True  #DELETE THIS AFTER TESTING
-  session['user'] = 'vihas'  #ADD THIS TOO
   return render_template('index.html')
 
 
