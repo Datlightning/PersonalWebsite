@@ -89,8 +89,11 @@ def homework():
         print(e)
         updates[x[0]] = []
   if request.method == 'POST':
-    for i in range(len(a)):
+    for i in list(range(len(a)))[::-1]:
       completion_percentage = request.form.get("completion")
+      if completion_percentage >= 100:
+        del a[i]
+        return
       if a[i][0] == request.form.get("assignment"):
         a[i].append(f"{completion_percentage}% - {todays_date}: {request.form.get('update')}")
         a[i][2] == completion_percentage
