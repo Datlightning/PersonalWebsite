@@ -1,0 +1,186 @@
+iframe {
+    width: 800px;
+}
+
+#events_container {
+    text-align: center;
+    margin: auto;
+    border-radius: 30px;
+    background: var(--lighter-red);
+    border-color: var(--not-exactly-black) !important;
+    padding: 5px 15px 20px;
+    width: 700px;
+}
+
+#event_label {
+    text-align: center;
+    margin: auto;
+
+    padding: 5px 15px 20px;
+    height: 100px;
+    width: 48%;
+}
+
+.back_link {
+    font-size: 1.1em;
+    text-decoration: none;
+    margin: auto;
+    color: var(--not-exactly-black);
+    transition: 0.2s ease-in;
+    padding: 6px;
+    background-color: var(--red);
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.back_link>a  {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.back_link:hover {
+    background-color: var(--lighter-red);
+    transition: 0.2s ease-in;
+}
+
+.event {
+    background: var(--red);
+    border-radius: 30px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.schedule-div {
+    text-align: center;
+    border-radius: 30px;
+    background: var(--lighter-red);
+    border-color: var(--not-exactly-black) !important;
+    padding: 0 15px 20px;
+    width: fit-content;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+input, button, a {
+    border-radius: 5px;
+}
+
+label {
+    font-size: 1.1em;
+}
+
+.Submit-Div {
+    text-align: center;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    height: fit-content;
+}
+
+input[type=checkbox] {
+    background-color: var(--off-white);
+    accent-color: var(--red);
+}
+
+input[type=number] {
+    background-color: var(--off-white);
+    border-width: 1px;
+    width: 30px;
+}
+
+input[type=radio] {
+    background-color: var(--lighter-red);
+    border-width: 1px;
+    accent-color: var(--red);
+}
+
+input[type=text] {
+    background-color: var(--lighter-red);
+    border-width: 1px;
+    accent-color: var(--red);
+}
+
+.incrementButton {
+    padding: 1px;
+    width: 50px;
+    background-color: var(--red);
+    height: 25px;
+    border-width: 2px;
+}
+
+.incrementButton:hover {
+    background-color: var(--lighter-red);
+}
+
+.submitButton {
+    background-color: var(--off-white);
+    font-size: 1.2em;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.submitButtonAjax {
+    background-color: var(--off-white);
+    font-size: 1.2em;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.attendance-div {
+    background-color: var(--lighter-red);
+    font-size: 1.2em;
+    border-radius: 30px;
+    padding: 10px;
+    width: 50%;
+    margin: auto
+}
+
+.submitButton:hover {
+    background-color: var(--lighter-red);
+}
+
+button:active {
+    background-color: var(--red);
+}
+
+a {
+    font-size: 1.1em;
+}
+
+#meeting {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#formData {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    height: fit-content !important;
+    padding-top: 1px;
+    margin-top: 20px;
+}
+
+#report {
+    margin-right: 20px;
+}
+
+table {
+    background-color: var(--lighter-red);
+    font-size: 1.2em;
+    border-radius: 30px;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid var(--not-exactly-black);
+    margin: auto auto 30px;
+}
+
+td, th, tr {
+    border-collapse: collapse;
+
+    border: 1px solid var(--not-exactly-black);
+}

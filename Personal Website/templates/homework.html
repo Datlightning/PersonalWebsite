@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Calendar{% endblock %}
+
+{% block headerinfo %}
+    <link href="{{ url_for('static', filename='css/homework.css') }}" rel="stylesheet">
+{% endblock %}
+{% block BodyContent %}
+    <br><br><br><br><br>
+    
+    </div>
+    <br><br><br>
+    <div id="events_container">
+        {% for assignment in assignments %}
+            <div class="event">
+                <h2>{{ assignment[1] }}</h2>
+                <h2>{{ assignment[0] }}</h2>
+                <div class="Submit-Div">
+                    <br>
+                    <div class="attendance-div" due_date="{{ assignment[1] }}"
+                         assignment="{{ assignment[0] }}" >
+                        <label>Update Completion
+                            <br>
+                            <label for = "comp">Percentage: </label><input type="number" id="comp" name="comp" min = 0 max = 100 required value = 0 step = 5><br>
+                            <label for = "update">Updates: </label><input type="text" id = "update" name = "update" required>
+                        </label>
+                        <br><br>
+                        <button class="submitButtonAjax">Submit</button>
+                        <br>
+                    </div>
+                        <div class= "show_att_div" >
+                        {% if updates[assignment[0]]|length > 0 %}
+                            <label>Progress History:</label><br>
+                            {% for item in updates[assignment[0]] %}
+                            <label>{{ item }}</label><br>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    
+                    
+                </div>
+                <br>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <script>
+        function resize_iframe() {
+            var iframe_width = $('iframe').width();
+            $('iframe').css('height', (iframe_width * 0.75) + 'px');
+        }
+        resize_iframe();
+        $(window).on('resize', function () {
+            resize_iframe();
+        });
+        $(document).on('click tap', '.submitButtonAjax', function (e) {
+            $('#LoadingContainer').css('display', 'flex');
+            e.preventDefault();
+            var button = $(this);
+            var attendance_div = button.parent();
+          
+            var show_att_div = attendance_div.siblings('.show_att_div');
+            var completion = attendance_div.find('input[name="comp"]').val();
+            if (completion === undefined) {
+                $('#LoadingContainer').css('display', 'none');
+                return
+            }
+            var updates = attendance_div.find('input[name="update"]').val();
+            if (updates === undefined) {
+                $('#LoadingContainer').css('display', 'none');
+                return
+            }
+            
+            var assignment = attendance_div.attr('assignment');
+            var date = attendance_div.attr('due_date');
+            var data_to_send = $.param({
+                formType: 'register',
+                due_date: date,
+                assignment: assignment,
+                completion: completion,
+                update: updates
+            })
+            $.ajax({
+                url: '/homework',
+                method: 'POST',
+                data: data_to_send,
+                success: function (response) {
+                    show_att_div.empty();
+                    for (var i in response['updates'][assignment]) {
+                        
+                        show_att_div.append(`<label>${response['updates'][assignment][i]}</label><br>`)
+                    }
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                failure: function (response) {
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            })
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+form {
+    background-color: var(--lighter-red);
+    width: 400px;
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 30px;
+}
+
+input, button {
+    border-radius: 5px;
+}
+
+label {
+    font-size: 1.1em;
+}
+
+form>div:first-child, form>div:nth-child(2) {
+    margin-bottom: 15px;
+}
+
+.submitButton{
+    background-color:var(--red);
+    font-size: 1.2em;
+}
+.submitButton:hover{
+    background-color:var(--lighter-red);
+}
+
+button:active{
+    background-color:var(--red);
+}
+
+h1 {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%);
+    white-space: nowrap;
+}
+
+form>div {
+    margin: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    form {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    form {
+        width: 90%;
+    }
+}

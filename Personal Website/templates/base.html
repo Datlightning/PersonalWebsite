@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+    {% block headerinfo %}{% endblock %}
+</head>
+<nav>
+    <div class="for-color"></div>
+    <!-- Regular navbar -->
+    <div id="Reg-Nav-Out">
+        <div id="Reg-Nav-In">
+            <!-- Nanogurus Logo -->
+            <div style="display: flex">
+                <a href="/" id="Nav-Logo-A">
+                    <span>The website</span>
+                </a>
+            </div>
+
+            <!-- Navbar Links -->
+            <div id="Nav-Link-Cont">
+                <a class="nav-links" href="/">Home</a>
+                <a class="nav-links" href="/gpa">GPA Calculator</a>
+                {% if session['logged_in'] is not true %}
+                    <a class="nav-links" href="/member-login">Login</a>
+                {% endif %}
+                {% if session['logged_in'] is true %}
+                    <div class="menu">
+                        <a class="nav-links">Assignments
+                            <img src="../static/images/caret-down-solid.svg" height="15px">
+                        </a>
+                        <div class="sub-menu">
+                            <a class="nav-links" href="/add-assignment">Add New Assignment</a>
+                            <a class="nav-links" href="/homework">Pending Assignments</a>
+                        </div>
+                    </div>
+                    <a class="nav-links" href="/notes">Create Notes</a>
+
+                            <a class="nav-links"
+                               href="/logout">Log {{ session['user'][0].upper() + session['user'][1:] }} Out</a>
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Mobile Hamburger Icon -->
+            <div class="hamburger">
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Mobile hamburger menu dropdown thing -->
+    <div class="mobile-menu">
+        <a class="nav-links" href="/">Home</a>
+        <div class="menu-mobile">
+            <a class="nav-links has-drop mouse">Assignments
+                <img src="../static/images/caret-down-solid.svg" height="15px">
+            </a>
+            <div class="sub-menu-mobile">
+                <a class="nav-links" href="/">Home</a>
+                <a class="nav-links" href="/gpa">GPA Calculator</a>
+            </div>
+        </div>
+      {% if session['logged_in'] is not true %}
+                    <a class="nav-links" href="/member-login">Login</a>
+                {% endif %}
+                {% if session['logged_in'] is true %}
+                    <div class="menu-mobile">
+                        <a class="nav-links">Assignments
+                            <img src="../static/images/caret-down-solid.svg" height="15px">
+                        </a>
+                        <div class="sub-menu-mobile">
+                            <a class="nav-links" href="/add-assignment">Add New Assignment</a>
+                            <a class="nav-links" href="/homework">Pending Assignments</a>
+                        </div>
+                    </div>
+                        <a class="nav-links" href="/notes">Create Notes</a>
+
+                            <a class="nav-links"
+                               href="/logout">Log {{ session['user'][0].upper() + session['user'][1:] }} Out</a>
+                    </div>
+  {% endif %}
+      
+    </div>
+</nav>
+<body>
+<div class="loading-container" id="LoadingContainer">
+    <div class="loading-spinner"></div>
+</div>
+{% block BodyContent %}
+{% endblock %}
+<!-- <footer>
+    <div><h2>NanoGurus</h2></div>
+    <div><h3>Copyright © 2023 NanoGurus</h3></div>
+    <div>
+        <a href="https://www.instagram.com/nanogurus4347/">
+            <object class="footer-links" data="../static/images/instagram.svg" type="image/svg+xml"></object>
+        </a>
+        <a href="mailto: nanogurusftcrobotics@gmail.com">
+            <object class="footer-links" data="../static/images/email.svg" type="image/svg+xml"></object>
+        </a>
+    </div>
+</footer> -->
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        function placeFooter() {
+            var body = $('body');
+            if (body.outerHeight() + body.offset().top < window.outerHeight) {
+                var footer = $('footer');
+                footer.css('position', 'absolute');
+                footer.css('bottom', (0).toString());
+            }
+        }
+        placeFooter()
+        var height = $('nav').height();
+        $('.for-color').css('height', height + 'px');
+        $('.hamburger').click(function () {
+                $('.mobile-menu').toggleClass('animate-menu');
+                $('.hamburger>div').toggleClass('opened');
+            }
+        )
+        $(document).on('click tap', '.has-drop', function () {
+            var $this = $(this)
+            var $drop = $this.next('.sub-menu-mobile');
+            $drop.toggleClass('show-menu-dropdown')
+        })
+    });
+
+
+    function UpdateDataSpreadsheet() {
+        $('#LoadingContainer').css('display', 'flex');
+        $.ajax({
+            url: '/update-data-spreadsheet',
+            type: 'GET',
+            success: function (response) {
+                $('#LoadingContainer').css('display', 'none');
+            },
+            error: function (error) {
+                $('#LoadingContainer').css('display', 'none');
+            }
+        });
+    }
+
+    const inViewport = (entries, observer) => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle("is-inViewport", entry.isIntersecting);
+            if (entry.isIntersecting) {
+                entry.target.classList.add("first-time");
+            }
+        });
+    };
+    const Obs = new IntersectionObserver(inViewport);
+    const obsOptions = {}; //See: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options
+
+    // Attach observer to every [data-inviewport] element:
+
+    const ELs_inViewport = document.querySelectorAll('[data-inviewport]');
+    ELs_inViewport.forEach(EL => {
+        Obs.observe(EL, obsOptions);
+    });
+    var rellax = new Rellax('.rellax');
+    var previousScroll = $(window).scrollTop();
+    $(window).scroll(function () {
+        var currScroll = $(this).scrollTop()
+        if (previousScroll > currScroll) {
+            $('nav').css('top', 0)
+        } else {
+            $('nav').css('top', '-100px')
+        }
+        previousScroll = currScroll;
+    })
+</script>
+</html>
