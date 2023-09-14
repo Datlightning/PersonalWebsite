@@ -1,2 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+{% block headerinfo %}
+        <link href="{{ url_for('static', filename='css/homework.css') }}" rel="stylesheet">
+{% endblock %}
+{% block BodyContent %}
+<br><br><br><br>
+<div class ='header'>
+<h1>I have too much time on my hands and I still couldn't be bothered to make a front end.</h1>
+<a class="nav-links" href="https://www.nanogurus.org/">Go here for a front end.</a>
+</div>
+{% endblock %}

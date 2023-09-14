@@ -11,7 +11,14 @@ iframe {
     padding: 5px 15px 20px;
     width: 700px;
 }
-
+.header, h1{
+    margin:auto;
+    width: fit-content;
+    text-align: center;
+    background-color: var(--red);
+    border-radius: 30px;
+    padding: 10px;
+}
 #event_label {
     text-align: center;
     margin: auto;
