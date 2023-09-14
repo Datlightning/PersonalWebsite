@@ -56,6 +56,8 @@ def assigning():
     percentage = 0
     due_date = request.form.get("date")
     temp = due_date.split("-")
+    if len(temp) != 3:
+      return render_template("add-assignment.html")
     due_date = temp[1] + "/" + temp[2] + "/" + temp[0]
     name = request.form.get("name")
     a = assignment(name=name, completion=percentage, due_date=due_date)
@@ -74,9 +76,12 @@ def make_notes():
     text = "Link for " + topic + " notes"
     return render_template("notes.html", url=url, text = text)
   return render_template("notes.html")
-@app.route('/redirect')
+
+@app.route('/refresh')
 def refresh():
+  print('hol up')
   return redirect("/homework")
+
 @app.route("/homework", methods = ["GET", "POST"])
 def homework():
   todays_date = f"{time.localtime().tm_mon}/{time.localtime().tm_mday}/{time.localtime().tm_year}"
@@ -91,19 +96,22 @@ def homework():
     except Exception as e:
         print(e)
         updates[x[0]] = []
+  refresh = False
   if request.method == 'POST':
     for i in list(range(len(a)))[::-1]:
       completion_percentage = request.form.get("completion")
       if a[i][0] == request.form.get("assignment"):
         if int(completion_percentage) >= 100:
-            print(a[i][0])
             del a[i]
-            return redirect("/redirect")
-        a[i].append(f"{completion_percentage}% - {todays_date}: {request.form.get('update')}")
-        a[i][2] == completion_percentage
-        updates[a[i][0]] = a[i][3:]
+        else:
+            a[i].append(f"{completion_percentage}% - {todays_date}: {request.form.get('update')}")
+            a[i][2] == completion_percentage
+            updates[a[i][0]] = a[i][3:]
 
     rd.write_assignments(a)
+    # if refresh:
+    #   print(" i have arrived")
+    #   return redirect("/refresh")
     return jsonify(updates=updates)
   return render_template("homework.html", assignments=a, updates = updates)
 

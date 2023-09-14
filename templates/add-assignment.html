@@ -44,8 +44,13 @@
                 $('#LoadingContainer').css('display', 'none');
                 return
             }
+            
             var event = attendance_div.attr('assignment');
             var time = attendance_div.attr('due_date');
+            if (time === undefined) {
+                $('#LoadingContainer').css('display', 'none');
+                return
+            }
             var data_to_send = $.param({
                 formType: 'register',
                 due_date: time,

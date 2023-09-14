@@ -54,12 +54,19 @@
         });
         $(document).on('click tap', '.submitButtonAjax', function (e) {
             $('#LoadingContainer').css('display', 'flex');
-            e.preventDefault();
+
             var button = $(this);
             var attendance_div = button.parent();
 
             var show_att_div = attendance_div.siblings('.show_att_div');
             var completion = attendance_div.find('input[name="comp"]').val();
+            if (parseInt(completion) < 100){
+                e.preventDefault();
+            }
+            else{
+                attendance_div.parent().parent().empty()
+                
+            }
             if (completion === undefined) {
                 $('#LoadingContainer').css('display', 'none');
                 return
