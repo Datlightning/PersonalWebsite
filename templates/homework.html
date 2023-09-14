@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Calendar{% endblock %}
+{% block title %}Homework Manager{% endblock %}
 
 {% block headerinfo %}
     <link href="{{ url_for('static', filename='css/homework.css') }}" rel="stylesheet">
 {% endblock %}
 {% block BodyContent %}
     <br><br><br><br><br>
-    
+
     </div>
     <br><br><br>
     <div id="events_container">
@@ -35,8 +35,8 @@
                             {% endfor %}
                         {% endif %}
                         </div>
-                    
-                    
+
+
                 </div>
                 <br>
             </div>
@@ -57,7 +57,7 @@
             e.preventDefault();
             var button = $(this);
             var attendance_div = button.parent();
-          
+
             var show_att_div = attendance_div.siblings('.show_att_div');
             var completion = attendance_div.find('input[name="comp"]').val();
             if (completion === undefined) {
@@ -69,7 +69,7 @@
                 $('#LoadingContainer').css('display', 'none');
                 return
             }
-            
+
             var assignment = attendance_div.attr('assignment');
             var date = attendance_div.attr('due_date');
             var data_to_send = $.param({
@@ -86,7 +86,7 @@
                 success: function (response) {
                     show_att_div.empty();
                     for (var i in response['updates'][assignment]) {
-                        
+
                         show_att_div.append(`<label>${response['updates'][assignment][i]}</label><br>`)
                     }
                     $('#LoadingContainer').css('display', 'none');

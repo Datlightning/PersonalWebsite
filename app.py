@@ -24,7 +24,7 @@ def gpa():
 
 @app.route("/member-login", methods=['GET', 'POST'])
 def member():
-  
+
   if request.method == 'POST':
     username = request.form.get('username')
     hash_pass = hashlib.sha256(
@@ -91,15 +91,24 @@ def homework():
   if request.method == 'POST':
     for i in list(range(len(a)))[::-1]:
       completion_percentage = request.form.get("completion")
+<<<<<<< Updated upstream:app.py
       if completion_percentage >= 100:
         del a[i]
         continue
         
+=======
+
+
+>>>>>>> Stashed changes:Personal Website/app.py
       if a[i][0] == request.form.get("assignment"):
+        if int(completion_percentage) >= 100:
+            print(a[i][0])
+            del a[i]
+            continue
         a[i].append(f"{completion_percentage}% - {todays_date}: {request.form.get('update')}")
         a[i][2] == completion_percentage
         updates[a[i][0]] = a[i][3:]
-    
+
     rd.write_assignments(a)
     return jsonify(updates=updates)
   return render_template("homework.html", assignments=a, updates = updates)

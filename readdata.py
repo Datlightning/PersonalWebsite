@@ -1,5 +1,6 @@
 from pathlib import Path
 import time
+import datetime
 from assignment import assignment
 
 directory = Path(__file__).parent.joinpath('data')
@@ -26,9 +27,10 @@ def add_assignment(hw):
     file.write(hw.generateString() + "\n")
   return
 def second(elem):
-  print(elem[1])
-  print('bv')
-  return elem[1]
+
+  reference_date = datetime.date(2000,1,1)
+  current_date = datetime.date(int(elem[1].split("/")[2]), int(elem[1].split("/")[0]), int(elem[1].split("/")[1]))
+  return current_date - reference_date
 def write_assignments(assignments):
   assignments = sorted(assignments, key = second)
   filename = directory.joinpath("assignments.txt")
@@ -38,9 +40,8 @@ def write_assignments(assignments):
       string += str(line) + "\n"
     file.write(string)
     file.close()
-  return 
+  return
 def get_api_key():
   filename = directory.joinpath('api.txt')
   with open(filename.resolve(), 'r') as file:
     return file.read().split('\n')[0]
-print('09/15/2023' < '06/09/2024')
