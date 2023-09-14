@@ -91,15 +91,6 @@ def homework():
   if request.method == 'POST':
     for i in list(range(len(a)))[::-1]:
       completion_percentage = request.form.get("completion")
-<<<<<<< Updated upstream:app.py
-      if completion_percentage >= 100:
-        del a[i]
-        continue
-        
-=======
-
-
->>>>>>> Stashed changes:Personal Website/app.py
       if a[i][0] == request.form.get("assignment"):
         if int(completion_percentage) >= 100:
             print(a[i][0])
