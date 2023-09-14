@@ -60,6 +60,7 @@ def assigning():
     name = request.form.get("name")
     a = assignment(name=name, completion=percentage, due_date=due_date)
     rd.add_assignment(a)
+    rd.write_assignments(rd.read_assignments())
   return render_template("add-assignment.html")
 
 @app.route("/notes", methods=['GET', 'POST'])
@@ -73,7 +74,9 @@ def make_notes():
     text = "Link for " + topic + " notes"
     return render_template("notes.html", url=url, text = text)
   return render_template("notes.html")
-
+@app.route('/redirect')
+def refresh():
+  return redirect("/homework")
 @app.route("/homework", methods = ["GET", "POST"])
 def homework():
   todays_date = f"{time.localtime().tm_mon}/{time.localtime().tm_mday}/{time.localtime().tm_year}"
@@ -95,7 +98,7 @@ def homework():
         if int(completion_percentage) >= 100:
             print(a[i][0])
             del a[i]
-            continue
+            return redirect("/redirect")
         a[i].append(f"{completion_percentage}% - {todays_date}: {request.form.get('update')}")
         a[i][2] == completion_percentage
         updates[a[i][0]] = a[i][3:]
