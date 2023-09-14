@@ -19,7 +19,7 @@ def index():  # put application's code here
 
 @app.route('/gpa')
 def gpa():
-  return render_template('index.html')
+  return render_template('gpa.html')
 
 
 @app.route("/member-login", methods=['GET', 'POST'])

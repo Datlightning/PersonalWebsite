@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}GPA Calculator{% endblock %}
+
+{% block headerinfo %}
+    <link href="{{ url_for('static', filename='css/homework.css') }}" rel="stylesheet">
+{% endblock %}
+{% block BodyContent %}
+    <br><br><br><br><br>
+
+    </div>
+    <br><br><br>
+    <div id="events_container">
+            <div class="event">
+                <label>You really thought huh.</label>
+            </div>
+    </div>
+    <script>
+        function resize_iframe() {
+            var iframe_width = $('iframe').width();
+            $('iframe').css('height', (iframe_width * 0.75) + 'px');
+        }
+        resize_iframe();
+        $(window).on('resize', function () {
+            resize_iframe();
+        });
+        $(document).on('click tap', '.submitButtonAjax', function (e) {
+            $('#LoadingContainer').css('display', 'flex');
+            e.preventDefault();
+            var button = $(this);
+            var attendance_div = button.parent();
+            var show_att_div = attendance_div.parent().siblings('.show_att_div');
+            if (attendance === undefined) {
+                $('#LoadingContainer').css('display', 'none');
+                return
+            }
+            var event = attendance_div.attr('assignment');
+            var time = attendance_div.attr('due_date');
+            var data_to_send = $.param({
+                formType: 'register',
+                due_date: time,
+                assignment: event,
+                attendance: parseInt(attendance)
+            })
+            $.ajax({
+                url: '/calendar',
+                method: 'POST',
+                data: data_to_send,
+                success: function (response) {
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                failure: function (response) {
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            })
+        })
+    </script>
+{% endblock %}
