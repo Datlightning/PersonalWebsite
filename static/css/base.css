@@ -1,7 +1,4 @@
-@font-face {
-    font-family: 'Maven Pro';
-    src: url('../fonts/MavenPro-Regular.ttf');
-}
+
 
 :root {
     --font-family: 'Maven Pro', serif;
@@ -564,8 +561,26 @@ footer > div:nth-child(3) > a:first-child {
     padding-left: 15px;
     border-radius: 45px;
 }
-
+#additional_ingredient{
+  padding:10px
+}
 
 .mouse {
     cursor: pointer;
+}
+.ingredient-container{
+  width:fit-content;
+  background-color:var(--red);
+  margin: auto;
+  border-radius: 30px;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-left:10px;
+
+}
+.ingredient-div{
+    border: var(--not-exactly-black) 2px solid;
+    background-color:var(--red);
+    padding:2px;
+    margin:auto;
 }
