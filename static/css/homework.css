@@ -141,6 +141,20 @@ input[type=text] {
     border-radius: 30px;
     padding: 10px;
 }
+.side{
+  text-align: center;
+    border-radius: 30px;
+    background: var(--lighter-nanogurus-yellow);
+    border-color: var(--not-exactly-black) !important;
+    padding: 0 15px 20px;
+    width: 300px;
+}
+.addInstruction {
+    background-color: var(--off-white);
+    font-size: 1.2em;
+    border-radius: 30px;
+    padding: 10px;
+}
 .attendance-div {
     background-color: var(--lighter-red);
     font-size: 1.2em;
