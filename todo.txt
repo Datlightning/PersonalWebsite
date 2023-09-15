@@ -1,2 +1,17 @@
-Add a place to add assignments
-Handle the form input betterer
+Take in meal inputs with:
+    Meal type -- breakfast, lunch, dinner
+    Ingredients
+    Steps to make
+    Any additional notes
+
+Workouts
+    Click a button to start the workout
+        Specify the targetted muscles
+        Allow user to input sets, reps and weights
+        Have another button to mark the end of the workout
+        Have a place to upload pictures of the machines
+        Allow the user to input machine settings like the various pin positions.
+
+Workout Viewer:
+    Sort by date/targeted muscle groups
+        Display the workout information
