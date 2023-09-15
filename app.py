@@ -47,7 +47,9 @@ def logout():
   session['logged_in'] = False
   return redirect('/')
 
-
+@app.route("/meals", methods=['POST',"GET"])
+def meals_handler():
+  return render_template("meals.html")
 @app.route("/add-assignment", methods=['GET', 'POST'])
 def assigning():
   if not session['logged_in']:
