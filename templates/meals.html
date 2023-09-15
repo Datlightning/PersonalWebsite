@@ -7,31 +7,55 @@
 {% block BodyContent %}
     <br><br><br><br><br>
 
-    </div>
     <br><br><br>
     <div id="events_container">
         <br>
-            <div class="event">
-                <form method = "post">
+            <form method = "post">
+              <div class="event">
                   <br>
                   <label for = "name">Meal Name: </label>
                   <input type="text" name = "name"/><br>
                   <br>
-                  <label for = "meal_type">Meal Type</label><select name = "meal_type" id = "meal_type">
+                  <label for = "meal_type">Meal Type: </label><select name = "meal_type" id = "meal_type">
                     <option value="B">Breakfast</option>
                     <option value="L">Lunch</option>
                     <option value="D">Dinner</option>
                     <option value="S">Snack</option>
                   </select>
-                <div id = "ingredient"></div>
-                <button type='add' id = "addIngredient" class = "addIngredient" >Add Ingredient</button>
 
-                  <button type='submit' class = "submitButton" >Submit</button>
-                </form>
+
+                
+                <div id = "ingredient" class="ingredient-container">
+                  <div id ="additional_ingredient" >
+                    <input type = "text" placeholder = "Enter Ingredient" id = "ingredient_input_0" name = "ingredient_input_0"/>
+                    <button class = "ingredient_input_button_b" type="x">X</button>
+                  </div>
+                </div>
+                  <button type='add' id = "addIngredient" class = "addIngredient" >Add Ingredient</button>
+                  <br>
+                  <br>
+            
+                <div id = "instruction" class="instruction-container">
+                  <div id ="additional_instruction" >
+                    <input type = "text" placeholder = "Enter Instruction" id = "instruction_input_0" name = "instruction_input_0"/>
+                    <button class = "instruction_input_button_b" type="x">X</button>
+                  </div>
+                    <br>
+                    </div>
+
+                    <button type='add' id = "addInstruction" class = "addInstruction" >Add Instructions</button>
                 <br>
-            </div>
+                <br><br>
+              </div>
+              <br>
+              <button type='submit' class = "submitButton" >Submit</button>
+      </form>
     </div>
+                
+                        
+
     <script>
+
         function resize_iframe() {
             var iframe_width = $('iframe').width();
             $('iframe').css('height', (iframe_width * 0.75) + 'px');
@@ -43,10 +67,35 @@
         $(document).ready(function(){
             var InputsWrapper = $("#ingredient")
             var AddButton = $("#addIngredient")
+            var InstructionsWrapper = $("#instruction")
+            var AddInstructionButton = $("#addInstruction")
+            var y = InstructionsWrapper.length
             var x= InputsWrapper.length
+            $(AddInstructionButton).click(function (e){
+              e.preventDefault()
+                $(InstructionsWrapper).append('<div id ="additional_instruction" ><input type = "text" placeholder = "Enter Instruction" id = "instruction_input_' + y + '" name = "instruction_input_' + y + '"/>\n<button class = "instruction_input_button_b" type="x">X</button><br></div>')
+                  return false
+              });
+          
+            $("body").on("click",".instruction_input_button_b",function (e){
+                e.preventDefault()
+                $(this).parent().empty()
+                return false
+              });
+          
             $(AddButton).click(function (e){
-                $(InputsWrapper).append('<input type = "text" placeholder = "Enter Ingredient" name = "ingredient_input_' + x + "/>")
-            });
-        })
+              e.preventDefault()
+                $(InputsWrapper).append('<div id ="additional_ingredient" ><input type = "text" placeholder = "Enter Ingredient" id = "ingredient_input_' + x + '" name = "ingredient_input_' + x + '"/>\n<button class = "ingredient_input_button_b" type="x">X</button><br></div>')
+                  return false
+              });
+          
+
+              $("body").on("click",".ingredient_input_button_b",function (e){
+                e.preventDefault()
+                $(this).parent().empty()
+                return false
+              });
+            
+        });
     </script>
 {% endblock %}
