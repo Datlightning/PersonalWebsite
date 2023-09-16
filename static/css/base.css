@@ -562,8 +562,11 @@ footer > div:nth-child(3) > a:first-child {
     border-radius: 45px;
 }
 #additional_ingredient{
-  padding:10px
+  padding:5px
 }
+#additional_instruction{
+    padding:5px
+  }
 
 .mouse {
     cursor: pointer;

@@ -49,7 +49,11 @@ def logout():
 
 @app.route("/meals", methods=['POST',"GET"])
 def meals_handler():
+  if request.method == 'POST':
+    rd.create_meal(request.form)
   return render_template("meals.html")
+
+
 @app.route("/add-assignment", methods=['GET', 'POST'])
 def assigning():
   if not session['logged_in']:
@@ -81,7 +85,6 @@ def make_notes():
 
 @app.route('/refresh')
 def refresh():
-  print('hol up')
   return redirect("/homework")
 
 @app.route("/homework", methods = ["GET", "POST"])
@@ -90,7 +93,6 @@ def homework():
   if not session['logged_in']:
     return redirect("/member-login")
   a = rd.read_assignments()
-  print(a)
   updates = {}
   for x in a:
     try:
@@ -116,6 +118,18 @@ def homework():
     #   return redirect("/refresh")
     return jsonify(updates=updates)
   return render_template("homework.html", assignments=a, updates = updates)
+@app.route("/cookbook", methods = ["GET", "POST"])
+def cookbook():
+  if request.method == "POST":
+    meals = rd.read_meals()
+    
+    data = []
+    for meal in meals[request.form.get("meal")]:
+      data.append([meal['name'], meal['ingredients'], meal['instructions']])
+    print(data)
+    return jsonify(meals = data)
+
+  return render_template("mealbook.html")
 
 
 if __name__ == '__main__':

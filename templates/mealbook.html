@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Cookbook{% endblock %}
+{% block headerinfo %}
+    <link href="{{ url_for('static', filename='css/meal-display.css') }}" rel="stylesheet">
+{% endblock %}
+{% block BodyContent %}
+    <div id="Display-Div">
+            <div>
+                <div class="scouting-names-div">
+                    <h3>Breakfast</h3>
+                    <button class="meal" meal='Breakfast'>View</button>
+                </div>
+                <div class="scouting-names-div">
+                    <h3>Lunch</h3>
+                    <button class="meal" meal='Lunch'>View</button>
+                </div>
+                <div class="scouting-names-div">
+                    <h3>Dinner</h3>
+                    <button class="meal" meal='Dinner'>View</button>
+                </div>
+                <div class="scouting-names-div">
+                    <h3>Snack</h3>
+                    <button class="meal" meal='Snack'>View</button>
+                </div>
+            </div>
+    
+        <div class="display-meal-div">
+        
+        </div>
+    </div>
+    <script>
+        $(document).on('click tap', '.meal', function () {
+            var $this = $(this)
+            var meal_name = $this.attr('meal')
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/cookbook',
+                type: 'POST',
+                data: 'meal=' + meal_name,
+                success: function (response) {
+                    $('.display-meal-div').empty();
+                    var meals = response['meals'];
+                    for (var i in meals) {
+                        var name = meals[i][0]
+                        var ingredients = meals[i][1]
+                        var instructions = meals[i][2]
+                        console.log(name)
+                        console.log(ingredients)
+                        console.log(instructions)
+                        $('.display-meal-div').append("<h1>" + name + "</h1>");
+                        $('.display-meal-div').append(`<h2>Ingredients:</h2>`);
+                        
+                        for(var x in ingredients){
+                            $('.display-meal-div').append("<label>" + ingredients[x] + "</label>");
+                            $('.display-meal-div').append(`<br>`);
+
+                        }
+                        $('.display-meal-div').append("<h2>Instructions:</h2");
+
+                        for(var x in instructions){
+                            $('.display-meal-div').append("<label>" + instructions[x] + "</label>");
+                            $('.display-meal-div').append(`<br>`);
+
+                        }
+                        
+                    }
+                    // $('.imgDisplay').last().on('load', function () {
+                    //     var body = $('body');
+                    //     var footer = $('footer');
+                    //     footer.css('position', 'relative')
+                    //     if (body.outerHeight() + body.offset().top < window.outerHeight) {
+                    //         var footer = $('footer');
+                    //         footer.css('position', 'absolute');
+                    //         footer.css('bottom', (0).toString());
+                    //     } else {
+                    //         var footer = $('footer');
+                    //         footer.css('position', 'relative')
+                    //     }
+                    // })
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
+        })
+    </script>
+{% endblock %}
