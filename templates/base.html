@@ -7,6 +7,8 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/screen-size-media-queries.css') }}" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
     {% block headerinfo %}{% endblock %}
 </head>
@@ -16,11 +18,11 @@
     <div id="Reg-Nav-Out">
         <div id="Reg-Nav-In">
             <!-- Nanogurus Logo -->
-            <div style="display: flex">
+            <!-- <div style="display: flex">
                 <a href="/" id="Nav-Logo-A">
                     <span>The website</span>
                 </a>
-            </div>
+            </div> -->
 
             <!-- Navbar Links -->
             <div id="Nav-Link-Cont">
@@ -79,22 +81,14 @@
 
     <!-- Mobile hamburger menu dropdown thing -->
     <div class="mobile-menu">
-        <a class="nav-links" href="/">Home</a>
-        <div class="menu-mobile">
-            <a class="nav-links has-drop mouse">Assignments
-                <img src="../static/images/caret-down-solid.svg" height="15px">
-            </a>
-            <div class="sub-menu-mobile">
-                <a class="nav-links" href="/">Home</a>
-                <a class="nav-links" href="/gpa">GPA Calculator</a>
-            </div>
-        </div>
+            <a class="nav-links" href="/">Home</a>
+            <a class="nav-links" href="/gpa">GPA Calculator</a>
       {% if session['logged_in'] is not true %}
                     <a class="nav-links" href="/member-login">Login</a>
                 {% endif %}
                 {% if session['logged_in'] is true %}
                     <div class="menu-mobile">
-                        <a class="nav-links">Assignments
+                        <a class="nav-links has-drop mouse">Assignments
                             <img src="../static/images/caret-down-solid.svg" height="15px">
                         </a>
                         <div class="sub-menu-mobile">
@@ -103,7 +97,7 @@
                         </div>
                     </div>
                     <div class="menu-mobile">
-                        <a class="nav-links"> Fitness
+                        <a class="nav-links has-drop mouse"> Fitness
                             <img src="../static/images/caret-down-solid.svg" height="15px">
                         </a>
                         <div class="sub-menu-mobile">
@@ -114,7 +108,7 @@
                         </div>
                     </div>
                     <div class="menu-mobile">
-                        <a class="nav-links">Useful Links
+                        <a class="nav-links has-drop mouse" >Useful Links
                             <img src="../static/images/caret-down-solid.svg" height="15px">
                         </a>
                         <div class="sub-menu-mobile">
