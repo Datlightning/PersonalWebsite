@@ -99,3 +99,114 @@ def read_meals():
       }
       meals[meal_type].append(meal_dictionary)
   return meals
+def get_exercise(exercise_type):
+  filename = directory.joinpath("exercises.txt")
+  lines = []
+  with open(filename.resolve(), "r") as file:
+    lines = file.read().split("\n")
+  if exercise_type == "chest":
+    return eval(lines[0])
+  elif exercise_type == "back":
+    return eval(lines[1])
+  elif exercise_type == "legs":
+    return eval(lines[2])
+  else:
+    return eval(lines[3])
+
+def add_exercise(data):
+  filename = directory.joinpath('current-workout.txt')
+  with open(filename.resolve(), "a+") as file:
+    file.write("\n" + str(data))
+
+def add_new_exercise(data):
+
+  filename = directory.joinpath('exercises.txt')
+  lines = []
+  with open(filename.resolve(), "r+") as file:
+    lines = file.read().split("\n")
+    print(lines)
+    for i in range(len(lines)):
+      print(i)
+      lines[i] = eval(lines[i])
+    file.close()
+  with open(filename.resolve(), "w") as file:
+    file.close()
+  if data[0] == "chest":
+    lines[0].append(data[1])
+  if data[0] == "back":
+    lines[1].append(data[1])
+  if data[0] == "legs":
+    lines[2].append(data[1])
+  if data[0] == "misc":
+    lines[3].append(data[1])
+  for i in range(len(lines)):
+    lines[i]=sorted(lines[i])
+  with open(filename.resolve(), "a+") as file:
+    for line in lines[:-1]:
+      file.write(str(line) + "\n")
+    file.write(str(lines[3]))
+  add_exercise(data)
+def read_current_exercises():
+  output = []
+  filename = directory.joinpath("current-workout.txt")
+  with open(filename.resolve(), "r") as file:
+    lines = file.read().split("\n")
+    for line in lines[1:]:
+      try:
+        output.append(eval(line))
+      except:
+        return ""
+    file.close()
+  return output
+
+def log_current_workout():
+  filename = directory.joinpath("current-workout.txt")
+  text = f'["{time.localtime().tm_mon}.{time.localtime().tm_mday}.{time.localtime().tm_year}"'
+
+  with open(filename.resolve(), "r") as file:
+    for line in file.read().split('\n'):
+      text += line + ","
+  text = text[:-1]
+  text += "]"
+  with open(filename.resolve(), "w") as file:
+    file.close()
+  filename = directory.joinpath("workouts.txt")
+  with open(filename.resolve(), "a+") as file:
+    file.write("\n")
+    file.write(text)
+def generate_string(number,workout_list):
+  output = f"{number}. {workout_list[1]} for {workout_list[2]}x{workout_list[3]}x{workout_list[4]}. {workout_list[5]}"
+  return output
+def get_all_workouts():
+  filename = directory.joinpath("workouts.txt")
+  text = []
+  lines = []
+  with open(filename.resolve(), "r") as file:
+    lines = file.read().split("\n")
+  for i in range(len(lines)):
+    lines[i] = eval(lines[i])
+    values = [0,0,0]
+    title = ""
+
+    text.append([])
+    index = 1
+    for item in lines[i][1:]:
+
+      if item[0] == "back":
+        values[1] += 1
+      elif item[0] == "chest":
+        values[0] += 1
+      elif item[0] == "legs":
+        values[2] += 1
+      text[i].append(generate_string(index, item))
+      index += 1
+    if (max(values) == values[0]):
+      title = "Chest"
+    if (max(values) == values[1]):
+      title = "Back"
+    if (max(values) == values[2]):
+      title = "Legs"
+    text[i].insert(0,title)
+    text[i].insert(0,lines[i][0])
+  
+  return text[::-1]

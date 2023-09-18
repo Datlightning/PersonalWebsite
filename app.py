@@ -7,13 +7,14 @@ from assignment import assignment
 from send import send_data
 import time
 
-# TODO Fix "on" from showing up sometinmes in the parkZone button
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "68c2b6ceb89ed3cd1f1c0e78d5fd79f710bef290bda90a70"
 
 
 @app.route('/')
-def index():  # put application's code here
+def index(): 
+  if not 'workout' in session.keys():
+    session['workout'] = False
   return render_template('index.html')
 
 
@@ -131,6 +132,44 @@ def cookbook():
 
   return render_template("mealbook.html")
 
+@app.route("/workout", methods=["GET", "POST"])
+def workout():
+  if request.method == "POST":
+    print(request.form.get("arg") == "start")
+    if request.form.get("arg") == "start":
+      session['workout'] = True
+    elif request.form.get("arg") == "end":
+      session['workout'] = False
+      rd.log_current_workout()
+    elif request.form.get("exercise") == "yes":
+      return jsonify(data = rd.get_exercise(request.form.get("arg")))
+    elif request.form.get("addinfo") == "yes":
+      sets = request.form.get("sets")
+      reps = request.form.get("reps")
+      notes = request.form.get("updates")
+      weight = request.form.get("weight")
+      name = request.form.get('name')
+      muscle = request.form.get('muscle')
+      output = [muscle, name, sets, reps, weight, notes]
+      rd.add_exercise(output)
+      return jsonify(data = rd.get_exercise(muscle))
+    elif request.form.get("addinfo") == "new_exercise":
+      sets = request.form.get("sets")
+      reps = request.form.get("reps")
+      notes = request.form.get("updates")
+      weight = request.form.get("weight")
+      name = request.form.get('name')
+      muscle = request.form.get('muscle')
+      output = [muscle, name, sets, reps, weight, notes]
+      rd.add_new_exercise(output)
+      return jsonify(data = rd.get_exercise(muscle))
+
+  workout = session['workout']
+  return render_template("workout.html", workout = workout, exercises = rd.read_current_exercises())
+@app.route('/workout-history')
+def workout_history():
+  data = rd.get_all_workouts()
+  return render_template("workout-history.html", data = data)
 
 if __name__ == '__main__':
     app.run(debug=True)  

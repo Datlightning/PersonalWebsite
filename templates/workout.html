@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Homework Manager{% endblock %}
+{% block title %}Workout{% endblock %}
 
 {% block headerinfo %}
     <link href="{{ url_for('static', filename='css/homework.css') }}" rel="stylesheet">
@@ -10,43 +10,41 @@
     <br><br><br>
     <div id="events_container">
         <br>
-            <form method = "post">
-              <div class="event">
-                  <br>
-                  <label for = "name">Meal Name: </label>
-                  <input type="text" name = "name"/><br>
-                  <br>
-                  <label for = "meal_type">Meal Type: </label><select name = "meal_type" id = "meal_type">
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Dinner">Dinner</option>
-                    <option value="Snack">Snack</option>
-                  </select>
+        {% if not workout %}
+            <div>
+              <button call = "start" class = "start" type = "submit" >Start Workout</button>
+            </div>
+        {% else %}
+            <div>
+              <h1>Add Exercise <br>
+              <button class = "exercise" call = "chest">Chest</button>
+              <button class = "exercise" call = "back">Back</button>
+              <button class = "exercise" call = "legs">Legs</button>
+              <button class = "exercise" call = "misc">Misc</button></h1>
+            </div>
+            <div class = "options">
 
-                <div id = "ingredient" class="ingredient-container">
-                  <div id ="additional_ingredient" >
-                    <input type = "text" placeholder = "Enter Ingredient" id = "ingredient_input_0" name = "ingredient_input_0"/>
-                    <button class = "ingredient_input_button_b" type="x">X</button>
-                  </div>
-                </div>
-                  <button type='add' id = "addIngredient" class = "addIngredient" >Add Ingredient</button>
-                  <br>
-                  <br>
-            
-                <div id = "instruction" class="instruction-container">
-                  <div id ="additional_instruction" >
-                    <input type = "text" placeholder = "Enter Instruction" id = "instruction_input_0" name = "instruction_input_0"/>
-                    <button class = "instruction_input_button_b" type="x">X</button>
-                  </div>
-                    </div>
-
-                    <button type='add' id = "addInstruction" class = "addInstruction" >Add Instructions</button>
+            </div>
+            <br>
+            <div class = "add-exercise-info">
+              
+            </div>
+            <br>
+            <div class = "active-workout">
+              <h2>Current Workout</h2>
+              {% for exercise in exercises %}
                 <br>
-                <br><br>
-              </div>
-              <br>
-              <button type='submit' class = "submitButton" >Submit</button>
-      </form>
+                <br>
+                <label>{{ exercise[1] }} {{ exercise[2] }}x{{ exercise[3] }}x{{ exercise[4] }}</label>
+                <br>
+                <label>{{ exercise[5] }}</label>
+              {% endfor %}
+            </div>
+            <br>
+            <div>
+              <button call = "end" class = "start" type = "submit" >End Workout</button>
+            </div>
+        {% endif %}
     </div>
                 
                         
@@ -61,40 +59,217 @@
         $(window).on('resize', function () {
             resize_iframe();
         });
-        $(document).ready(function(){
-            var InputsWrapper = $("#ingredient")
-            var AddButton = $("#addIngredient")
-            var InstructionsWrapper = $("#instruction")
-            var AddInstructionButton = $("#addInstruction")
-            $(AddInstructionButton).click(function (e){
-              var y = InstructionsWrapper.children().length
+        $(document).on('click tap', '.exercise_type', function () {         
+           var $this = $(this)
+            var exercise = $this.attr('call')
+            var group = $this.attr("muscle")
+            var exercise_div = $(".add-exercise-info")
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/workout',
+                type: 'POST',
+                data: {
+                        arg: exercise,
+                        group: group,
+                      },
+                success: function (response) {
+                  $(".add-exercise-info").empty()
+                  $(".options").empty()
+                  $(".add-exercise-info").css("background", "var(--red)");
+                  
+                    exercise_div.empty()
+                    
+                    if(exercise == "add_new_exercise"){
+                      exercise_div.append(`<h2>Add New Exercise</h2>`)
+                      exercise_div.append(`<div class = "justified" align = "justify"></div>`)
 
-              e.preventDefault()
-                $(InstructionsWrapper).append('<div id ="additional_instruction" ><input type = "text" placeholder = "Enter Instruction" id = "instruction_input_' + y + '" name = "instruction_input_' + y + '"/>\n<button class = "instruction_input_button_b" type="x">X</button><br></div>')
-                  return false
-              });
-          
-            $("body").on("click",".instruction_input_button_b",function (e){
-                e.preventDefault()
-                $(this).parent().empty()
-                return false
-              });
-          
-            $(AddButton).click(function (e){
-              var x= InputsWrapper.children().length
+                      $(".justified").append(`<label for = "name">Name: </label><input type = "text"  id = "name" name = "name" class = "new_name"/><br><br>`)
+                      $(".justified").append(`<label for = "muscle">Muscle Group: </label><select  id = "muscle" name = "muscle" class = "muscle_group"><option value = "chest">Chest</option><option value = "back">Back</option><option value = "legs">Legs</option><option selected value = "misc">Misc</option></select><br><br>`)
+                    }
+                    else{
+                      exercise_div.append(`<h2>${exercise}</h2>`)
+                      exercise_div.append(`<div class = "justified" align = "justify"></div>`)
 
-              e.preventDefault()
-                $(InputsWrapper).append('<div id ="additional_ingredient" ><input type = "text" placeholder = "Enter Ingredient" id = "ingredient_input_' + x + '" name = "ingredient_input_' + x + '"/>\n<button class = "ingredient_input_button_b" type="x">X</button><br></div>')
-                  return false
-              });
-          
+                    }
+                    $(".justified").append(`<label for = "sets">Sets: </label><input type = "number" step = 1 id = "sets" min = 0 name = "sets" class = "sets"/>`)
+                    $(".justified").append(`<br><br><label for = "reps">Reps: </label><input type = "number" step = 1 id = "reps" min = 0 name = "reps"  class = "reps"/>`)
+                    $(".justified").append(`<br><br><label for = "weight">Weight: </label><input type = "text" id = "weight" name = "weight" class = "weight"/>`)
+                    $(".justified").append(`<br><br><label for = "notes">Notes: </label><input type = "text" id = "notes" name = "notes" class = "notes"/>`)
+                    if(exercise == "add_new_exercise"){
+                      exercise_div.append(`<br><br><button class = "add_extra" muscle_group = "${group}" exercise_name = ` + exercise + '>Log Exercise</button><br>\n')
+  
+                    }
+                    else{
+                      exercise_div.append(`<br><br><button class = "set_info" muscle_group = "${group}" exercise_name = ` + exercise + '>Log Exercise</button><br>\n')
 
-              $("body").on("click",".ingredient_input_button_b",function (e){
-                e.preventDefault()
-                $(this).parent().empty()
-                return false
-              });
+
+                    }
+
+                    
+                    
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
+        });
+        $(document).on('click tap', '.add_extra', function () {         
+           var $this = $(this)
+            var exercise_name = $this.siblings(".justified").children(".new_name").val()
+            var muscle_group = $this.siblings(".justified").children(".muscle_group").val()
+            console.log(muscle_group)
+            var sets = $this.siblings(".justified").children(".sets").val()
+            var reps = $this.siblings(".justified").children(".reps").val()
+            var updates = $this.siblings(".justified").children(".notes").val()
+            var weight = $this.siblings(".justified").children(".weight").val()
+            var exercise_div = $(".options")
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/workout',
+                type: 'POST',
+                data: {
+                        addinfo: 'new_exercise',
+                        name: exercise_name,
+                        muscle: muscle_group,
+                        sets: sets,
+                        reps: reps,
+                        updates: updates,
+                        weight: weight
+                      },
+                success: function (response) {
+                  $(".add-exercise-info").empty()
+                  $(".add-exercise-info").css("background", "var(--lighter-red)");
+
+
+                    exercise_div.empty()
+                    var data = response['data']
+                    for (var i in data){
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = ${muscle_group} call =` + data[i] + '>' + data[i] + "</button><br>\n")
+                    }
+                    if(muscle_group == 'misc'){
+                    exercise_div.append('<br><button class = "exercise_type" muscle = ' + muscle_group + ' call = "add_new_exercise">Unlisted Exercise</button><br>\n')
+                  }
+                  $(".active-workout").append(`<br><br><label>${exercise_name} ${sets}x${reps}x${weight}</label>\n<br><label>${updates}</label>\n`)
+                   
+                    
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
+        });
+        $(document).on('click tap', '.set_info', function () {         
+           var $this = $(this)
+            var exercise_name = $this.attr('exercise_name')
+            var muscle_group = $this.attr('muscle_group')
+            console.log(muscle_group)
+            var sets = $this.siblings(".justified").children(".sets").val()
+            var reps = $this.siblings(".justified").children(".reps").val()
+            var updates = $this.siblings(".justified").children(".notes").val()
+            var weight = $this.siblings(".justified").children(".weight").val()
+            var exercise_div = $(".options")
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/workout',
+                type: 'POST',
+                data: {
+                        addinfo: 'yes',
+                        name: exercise_name,
+                        muscle: muscle_group,
+                        sets: sets,
+                        reps: reps,
+                        updates: updates,
+                        weight: weight
+                      },
+                success: function (response) {
+                  $(".add-exercise-info").empty()
+                  $(".add-exercise-info").css("background", "var(--lighter-red)");
+
+
+                    exercise_div.empty()
+                    var data = response['data']
+                    for (var i in data){
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = ${muscle_group} call =` + data[i] + '>' + data[i] + "</button><br>\n")
+                    }
+                    if(muscle_group == 'misc'){
+                    exercise_div.append('<br><button class = "exercise_type" muscle = ' + muscle_group + ' call = "add_new_exercise">New Exercise</button><br>\n')
+                  }
+
+                  $(".active-workout").append(`<br><br><label>${exercise_name} ${sets}x${reps}x${weight}</label>\n<br><label>${updates}</label>\n`)
+
+                    
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
+        });
+        $(document).on('click tap', '.exercise', function () {         
+           var $this = $(this)
+            var action = $this.attr('call')
+            var exercise_div = $(".options")
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/workout',
+                type: 'POST',
+                data: {
+                        arg: action,
+                        "exercise": "yes"
+                      },
+                success: function (response) {
+                  $(".add-exercise-info").empty()
+                  $(".add-exercise-info").css("background", "var(--lighter-red)");
+
+
+                    exercise_div.empty()
+                    var data = response['data']
+                    for (var i in data){
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = "${action}" call =` + data[i] + '>' + data[i] + "</button><br>\n")
+                    }
+                    if(action == 'misc'){
+                    exercise_div.append('<br><button class = "exercise_type" muscle = "' + action + '" call = "add_new_exercise">Unlisted Exercise</button><br>\n')
+                  }
+                    
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
+        });
+        $(document).on('click tap', '.start', function () {         
+           var $this = $(this)
+            var action = $this.attr('call')
             
+            $('#LoadingContainer').css('display', 'flex');
+            $.ajax({
+                url: '/workout',
+                type: 'POST',
+                data: 'arg=' + action,
+                success: function (response) {
+                    
+                    console.log(action);    
+                    location.reload()
+                    
+                    $('#LoadingContainer').css('display', 'none');
+                },
+                error: function (error) {
+                    $('.testingdiv').empty();
+                    $('.testingdiv').append('bruh');//lmao
+                    $('#LoadingContainer').css('display', 'none');
+                }
+            });
         });
     </script>
 {% endblock %}

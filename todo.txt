@@ -1,15 +1,9 @@
-Take in meal inputs with:
-    Meal type -- breakfast, lunch, dinner
-    Ingredients
-    Steps to make
-    Any additional notes
-
 Workouts
     Click a button to start the workout
         Specify the targetted muscles
         Allow user to input sets, reps and weights
         Have another button to mark the end of the workout
-        Have a place to upload pictures of the machines
+        Have a place to select pictures of the handles
         Allow the user to input machine settings like the various pin positions.
 
 Workout Viewer:
