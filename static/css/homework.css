@@ -52,7 +52,7 @@ iframe {
     border-style: solid;
 
     padding: 5px 15px 20px;
-    width: fit-content;
+    width: 700px;
 }
 #workouts_container {
     text-align: center;
