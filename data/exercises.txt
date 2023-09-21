@@ -1,4 +1,4 @@
-['Bench Press', 'Converging Chest Press', 'Incline Bench Press', 'Lateral and Front Shoulder Raise', 'Machine Decline Press', 'Pectoral Fly (Hands pointed up)', 'Regular Shoulder Press Machine', 'Reverse Cable Flys', 'Roc-it Shoulder Press', 'Rotator Cuff', 'Tricep Press Machine', 'Tricep Rope Pulldown']
+['Bench Press', 'Converging Chest Press', 'Incline Bench Press', 'Incline Chest Press Machine', 'Lateral and Front Shoulder Raise', 'Machine Decline Press', 'Pectoral Fly (Hands pointed up)', 'Regular Shoulder Press Machine', 'Reverse Cable Flys', 'Roc-it Shoulder Press', 'Rotator Cuff', 'Tricep Extension', 'Tricep Press Machine', 'Tricep Rope Pulldown']
 ['Behind Back Wrist Curls', 'Cambered Bar Reverse Curls', 'Farmer Curls', 'Lat Pulldown', 'Plate Rows', 'Reverse Fly Machine', 'Row']
 ['Hack Squat', 'Leg Press', 'Lunges', 'Seated Calf Raise']
 ['Crunches', 'Tennis Swings']
