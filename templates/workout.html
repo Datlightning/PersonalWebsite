@@ -96,11 +96,11 @@
                     $(".justified").append(`<br><br><label for = "weight">Weight: </label><input type = "text" id = "weight" name = "weight" class = "weight"/>`)
                     $(".justified").append(`<br><br><label for = "notes">Notes: </label><input type = "text" id = "notes" name = "notes" class = "notes"/>`)
                     if(exercise == "add_new_exercise"){
-                      exercise_div.append(`<br><br><button class = "add_extra" muscle_group = "${group}" exercise_name = ` + exercise + '>Log Exercise</button><br>\n')
+                      exercise_div.append(`<br><br><button class = "add_extra" muscle_group = "${group}" exercise_name = "` + exercise + '">Log Exercise</button><br>\n')
   
                     }
                     else{
-                      exercise_div.append(`<br><br><button class = "set_info" muscle_group = "${group}" exercise_name = ` + exercise + '>Log Exercise</button><br>\n')
+                      exercise_div.append(`<br><br><button class = "set_info" muscle_group = "${group}" exercise_name = "` + exercise + '">Log Exercise</button><br>\n')
 
 
                     }
