@@ -1,5 +1,4 @@
-['Calc Videos', '09/20/2023', '0', '35% - 9/20/2023: ']
-['Lang College Essay', '09/21/2023', '0', '50% - 9/19/2023: ', '70% - 9/19/2023: Made some more revisions during class', '95% - 9/21/2023: Need to make final draft revisions']
-['Bio work', '09/21/2023', '0', '95% - 9/20/2023: ']
-['Bio Albert.io', '09/22/2023', '0']
+['Final Personal Essay', '09/26/2023', '0', '0% - 9/22/2023: ']
 ['Spanish Project', '09/27/2023', '0', '20% - 9/21/2023: Started to write the 10 sentences.']
+['ACTUALLY DO THE BC WORK', '09/27/2023', '0']
+['History Packet Due', '09/29/2023', '0']
