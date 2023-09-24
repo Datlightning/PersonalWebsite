@@ -158,7 +158,53 @@ def read_current_exercises():
         return ""
     file.close()
   return output
+def change_exercise(text):
+  chest = get_exercise("chest")
+  back = get_exercise("back")
+  legs = get_exercise("legs")
+  misc = get_exercise("misc")
+  exercises_dict = {
+     "chest":chest,
+    "back":back,
+    "legs":legs,
+    "misc":misc
+  }
 
+  current_exercises = eval(text)
+  exercise_type = ""
+  max_count = 0
+  count = {
+    "chest":0,
+    "back":0,
+    "legs":0,
+    "misc":0
+  }
+  exercises = []
+  for var in current_exercises[1:]:
+    count[var[0]] += 1
+    if count[var[0]] > max_count:
+      exercise_type = var[0]
+      max_count = count[var[0]]
+    exercises.append(var[1])
+  exercises_dict[exercise_type] = set(exercises_dict[exercise_type]).union(set(exercises))
+  print(exercises_dict[exercise_type])
+  options = ["chest", "back", "legs"]
+  if exercise_type == "misc":
+    return
+  options.remove(exercise_type)
+  for option in options:
+    print(option)
+    exercises_dict[option] = set(exercises_dict[option]).difference(set(exercises))
+  filename = directory.joinpath("exercises.txt")
+  with open(filename.resolve(), "w") as file:
+    file.close()
+  with open(filename.resolve(), "a+") as file:
+    file.write(str(sorted(list(exercises_dict["chest"]))) + "\n")
+    file.write(str(sorted(list(exercises_dict["back"]))) + "\n")
+    file.write(str(sorted(list(exercises_dict["legs"]))) + "\n")
+    file.write(str(sorted(list(exercises_dict["misc"]))) + "\n")
+    
+  
 def log_current_workout():
   filename = directory.joinpath("current-workout.txt")
   text = f'["{time.localtime().tm_mon}.{time.localtime().tm_mday}.{time.localtime().tm_year}"'
@@ -174,8 +220,9 @@ def log_current_workout():
   with open(filename.resolve(), "a+") as file:
     file.write("\n")
     file.write(text)
+  change_exercise(text)
 def generate_string(number,workout_list):
-  output = f"{number}. {workout_list[1]} for {workout_list[2]}x{workout_list[3]}x{workout_list[4]}. {workout_list[5]}"
+  output = f"{number}. {workout_list[1]} for {workout_list[2]}x{workout_list[3]}x {workout_list[4]}. {workout_list[5]}"
   return output
 def get_all_workouts():
   filename = directory.joinpath("workouts.txt")
