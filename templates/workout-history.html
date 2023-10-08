@@ -9,20 +9,21 @@
 
     </div>
     <br><br><br>
-    <div id="workouts_container" align="left">
+    <div id="workouts_container">
         {% for workout in data %}
-        <br>
+            <!-- <br class = "br{{ workout[0] }}{{ workout [1] }}"> -->
             <div class="workout">
-                <h1>{{ workout[0] }}</h1>
-                <h3>{{ workout[1] }}</h3>
+                <h2 class = "muscle-group-div">{{ workout[0] }}</h2>
+                <h3 class = "muscle-group-div">{{ workout[1] }}</h3>
                 <div align="left">
                     {% for item in workout[2:] %}
                         <label  class = "left-div" >{{ item }}</label><br>
                     {% endfor %}
                     <br>
                 </div>
+                <button align="left" date = "{{ workout[0] }}" muscle = "{{ workout[1] }}" class = "delete">Delete</button>
             </div>
-            <br>
+            <!-- <br class = "br{{ workout[0] }}{{ workout [1] }}"> -->
    
         {% endfor %}
     </div>
@@ -35,50 +36,24 @@
         $(window).on('resize', function () {
             resize_iframe();
         });
-        $(document).on('click tap', '.submitButtonAjax', function (e) {
+        $(document).on('click tap', '.delete', function (e) {
             $('#LoadingContainer').css('display', 'flex');
-
-            var button = $(this);
-            var attendance_div = button.parent();
-
-            var show_att_div = attendance_div.siblings('.show_att_div');
-            var completion = attendance_div.find('input[name="comp"]').val();
-            if (parseInt(completion) < 100){
-                e.preventDefault();
-            }
-            else{
-                attendance_div.parent().parent().empty()
-                
-            }
-            if (completion === undefined) {
-                $('#LoadingContainer').css('display', 'none');
-                return
-            }
-            var updates = attendance_div.find('input[name="update"]').val();
-            if (updates === undefined) {
-                $('#LoadingContainer').css('display', 'none');
-                return
-            }
-
-            var assignment = attendance_div.attr('assignment');
-            var date = attendance_div.attr('due_date');
+            var $this = $(this)
+            var parent_div = $(this).parent()
+            var date = $this.attr('date');
+            var muscle = $this.attr('muscle');
+           
             var data_to_send = $.param({
-                formType: 'register',
-                due_date: date,
-                assignment: assignment,
-                completion: completion,
-                update: updates
+                date: date,
+                muscle: muscle
             })
             $.ajax({
-                url: '/homework',
+                url: '/workout-history',
                 method: 'POST',
                 data: data_to_send,
-                success: function (response) {
-                    show_att_div.empty();
-                    for (var i in response['updates'][assignment]) {
-
-                        show_att_div.append(`<label>${response['updates'][assignment][i]}</label><br>`)
-                    }
+                success: function (response) {         
+                    parent_div.remove()
+                
                     $('#LoadingContainer').css('display', 'none');
                 },
                 failure: function (response) {

@@ -166,8 +166,15 @@ def workout():
 
   workout = session['workout']
   return render_template("workout.html", workout = workout, exercises = rd.read_current_exercises())
-@app.route('/workout-history')
+
+@app.route('/workout-history', methods = ["POST", "GET"])
 def workout_history():
+  if request.method == "POST":
+    date = request.form.get("date")
+    muscle = request.form.get("muscle")
+    rd.remove_workout(date, muscle)
+  else:
+    pass
   data = rd.get_all_workouts()
   return render_template("workout-history.html", data = data)
 

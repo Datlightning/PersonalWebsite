@@ -54,6 +54,18 @@ iframe {
     padding: 5px 15px 20px;
     width: 700px;
 }
+.muscle-group-div {
+    text-align: left;
+    justify-content: left;
+    padding: 10px;
+    padding-bottom: 0px;
+    margin:auto;
+}
+h2{
+    font-size: 40px;
+    padding-bottom: 0px;
+    margin:auto;
+}
 #workouts_container {
     text-align: center;
     margin: auto;
@@ -65,6 +77,9 @@ iframe {
 
     padding: 5px 15px 20px;
     width: fit-content;
+}
+#workouts_container > * {
+    margin: 30px 0;
 }
 .header, h1{
     margin:auto;
@@ -116,11 +131,19 @@ iframe {
 .workout {
     background: var(--red);
     border-radius: 30px;
-    width: fit-content;
+    width: parent;
+    justify-content: left;
     margin-right: auto;
 }
 
-
+.delete {
+    border-radius:5px;
+    background-color: var(--lighter-red);
+    accent-color: var(--red);
+    width: 150px;
+    padding: 5px;
+    margin: 10px;
+}
 
 .schedule-div {
     text-align: center;

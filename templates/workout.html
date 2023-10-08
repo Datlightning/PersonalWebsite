@@ -147,7 +147,7 @@
                     exercise_div.empty()
                     var data = response['data']
                     for (var i in data){
-                      exercise_div.append(`<br><button class = "exercise_type" muscle = ${muscle_group} call =` + data[i] + '>' + data[i] + "</button><br>\n")
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = ${muscle_group} call ="` + data[i] + '">' + data[i] + "</button><br>\n")
                     }
                     if(muscle_group == 'misc'){
                     exercise_div.append('<br><button class = "exercise_type" muscle = ' + muscle_group + ' call = "add_new_exercise">Unlisted Exercise</button><br>\n')
@@ -233,7 +233,7 @@
                     exercise_div.empty()
                     var data = response['data']
                     for (var i in data){
-                      exercise_div.append(`<br><button class = "exercise_type" muscle = "${action}" call ="` + data[i] + '"">' + data[i] + "</button><br>\n")
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = "${action}" call ="` + data[i] + '">' + data[i] + "</button><br>\n")
                     }
                     if(action == 'misc'){
                     exercise_div.append('<br><button class = "exercise_type" muscle = "' + action + '" call = "add_new_exercise">Unlisted Exercise</button><br>\n')

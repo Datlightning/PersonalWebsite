@@ -127,7 +127,10 @@ def add_new_exercise(data):
     print(lines)
     for i in range(len(lines)):
       print(i)
-      lines[i] = eval(lines[i])
+      try:
+        lines[i] = eval(lines[i])
+      except:
+        continue
     file.close()
   with open(filename.resolve(), "w") as file:
     file.close()
@@ -158,6 +161,29 @@ def read_current_exercises():
         return ""
     file.close()
   return output
+def remove_workout(date, muscle):
+  workouts = get_all_workouts()
+  remove = 0
+  print(date, muscle)
+  for i in list(range(len(workouts)))[::-1]:
+    print(i)
+    if workouts[i][0] == date and workouts[i][1] == muscle:
+      remove = len(workouts) - i - 1
+      print(i)
+      break
+  filename = directory.joinpath("workouts.txt")
+  lines = []
+  with open(filename.resolve(), "r") as file:
+    lines = file.read().split("\n")
+    file.close()
+  del lines[remove]
+  with open(filename.resolve(), "w+") as file:
+    file.close()
+  with open(filename.resolve(), "a+") as file:
+    for line in lines[0:-1]:
+      file.write(line + '\n')
+    file.write(lines[-1])
+ 
 def change_exercise(text):
   chest = get_exercise("chest")
   back = get_exercise("back")
