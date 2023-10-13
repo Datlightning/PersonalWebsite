@@ -195,10 +195,10 @@
                     exercise_div.empty()
                     var data = response['data']
                     for (var i in data){
-                      exercise_div.append(`<br><button class = "exercise_type" muscle = ${muscle_group} call =` + data[i] + '>' + data[i] + "</button><br>\n")
+                      exercise_div.append(`<br><button class = "exercise_type" muscle = "${muscle_group}" call =` + data[i] + '>' + data[i] + "</button><br>\n")
                     }
                     if(muscle_group == 'misc'){
-                    exercise_div.append('<br><button class = "exercise_type" muscle = ' + muscle_group + ' call = "add_new_exercise">New Exercise</button><br>\n')
+                    exercise_div.append('<br><button class = "exercise_type" muscle = "' + muscle_group + '" call = "add_new_exercise">New Exercise</button><br>\n')
                   }
 
                   $(".active-workout").append(`<br><br><label>${exercise_name} ${sets}x${reps}x${weight}</label>\n<br><label>${updates}</label>\n`)
