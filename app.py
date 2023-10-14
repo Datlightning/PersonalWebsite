@@ -18,8 +18,30 @@ def index():
   return render_template('index.html')
 
 
-@app.route('/gpa')
+@app.route('/gpa', methods = ["GET", "POST"])
 def gpa():
+  
+  if request.method == "POST":
+    average = 0
+    maxvalue = 0
+    points = []
+    index = 0
+    position = -1
+    for val, item in request.form.items():
+      if index % 3 == 0:
+        index = 1
+        position += 1
+        points.append([])
+      else:
+        index += 1
+      print(item)
+      points[position].append(float(item))
+    for group in points:
+      print(group)
+      average +=  (group[0] + group[2]) * group[1]
+      maxvalue += (100) * group[1]
+    return jsonify(percent = (round(100 * round(average/maxvalue),5), 4))
+      
   return render_template('gpa.html')
 
 
