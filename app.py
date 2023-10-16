@@ -40,7 +40,7 @@ def gpa():
       print(group)
       average +=  (group[0] + group[2]) * group[1]
       maxvalue += (100) * group[1]
-    return jsonify(percent = (round(100 * round(average/maxvalue),5), 4))
+    return jsonify(percent = (round(100 * round(average/maxvalue,5), 4)))
       
   return render_template('gpa.html')
 
